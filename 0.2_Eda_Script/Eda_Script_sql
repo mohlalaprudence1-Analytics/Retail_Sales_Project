@@ -1,0 +1,164 @@
+
+-- ============================================================
+-- 1. DIMENSION TABLES
+-- ============================================================
+
+-- ------------------------------------------------------------
+-- 1.1 DIM_DATE
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_DATE (
+Date_ID INT,
+Purchase_Date STRING,
+Ship_Date STRING,
+Return_Date STRING
+);
+SELECT * FROM DIM_DATE;
+
+-- ------------------------------------------------------------
+-- 1.2 DIM_CHANNEL
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_CHANNEL (
+Channel_ID INT,
+Channel STRING
+);
+SELECT * FROM DIM_CHANNEL;
+
+-- ------------------------------------------------------------
+-- 1.3 DIM_SALESPERSON
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_SALESPERSON (
+Salesperson_ID STRING,
+Salesperson_Department STRING
+);
+SELECT * FROM DIM_SALESPERSON;
+
+-- ------------------------------------------------------------
+-- 1.4 DIM_CUSTOMER
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_CUSTOMER (
+Customer_ID STRING,
+Customer_Segment STRING,
+Loyalty_Tier STRING
+);
+SELECT * FROM DIM_CUSTOMER;
+
+-- ------------------------------------------------------------
+-- 1.5 DIM_STORE
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_STORE (
+Store_ID STRING,
+Store_Name STRING,
+Store_Type STRING
+);
+SELECT * FROM DIM_STORE;
+
+-- ------------------------------------------------------------
+-- 1.6 DIM_PROMOTION
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_PROMOTION (
+Promotion_ID STRING,
+Promotion_Name STRING
+);
+SELECT * FROM DIM_PROMOTION;
+
+-- ------------------------------------------------------------
+-- 1.7 DIM_LOCATION
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_LOCATION (
+Location_ID INT,
+Continent STRING,
+Country STRING,
+City STRING
+);
+SELECT * FROM DIM_LOCATION;
+
+-- ------------------------------------------------------------
+-- 1.8 DIM_PRIORITY
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_PRIORITY (
+Priority_ID INT,
+Priority STRING
+);
+SELECT * FROM DIM_PRIORITY;
+
+-- ------------------------------------------------------------
+-- 1.9 DIM_PAYMENT
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_PAYMENT (
+Payment_ID INT,
+Payment_Method STRING
+);
+SELECT * FROM DIM_PAYMENT;
+
+-- ------------------------------------------------------------
+-- 1.10 DIM_PRODUCT
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DIM_PRODUCT (
+Product_ID STRING,
+SKU STRING,
+Product_Name STRING,
+Category STRING,
+Subcategory STRING,
+Brand STRING
+);
+SELECT * FROM DIM_PRODUCT;
+
+-- ============================================================
+-- 2. FACT TABLE
+-- ============================================================
+
+-- ------------------------------------------------------------
+-- 2.1 FACT_SALES
+-- ------------------------------------------------------------
+
+CREATE OR REPLACE TABLE FACT_SALES (
+Order_ID STRING,
+Store_ID STRING,
+Customer_ID STRING,
+Salesperson_ID STRING,
+Product_ID STRING,
+Promotion_ID STRING,
+Returned STRING,
+Quantity STRING,
+Unit_Cost STRING,
+Unit_Price STRING,
+Discount_Amount STRING,
+Tax_Amount STRING,
+Shipping_Cost STRING,
+Gross_Sales STRING,
+Net_Sales STRING,
+COGS STRING,
+Gross_Profit STRING
+);
+SELECT * FROM FACT_SALES;
+
+INSERT INTO FACT_SALES
+SELECT
+`Order ID`,
+`Store ID`,
+`Customer ID`,
+`Salesperson ID`,
+`Product ID`,
+`Promotion ID`,
+Returned,
+CAST(Quantity AS STRING),
+CAST(`Unit Cost` AS STRING),
+CAST(`Unit Price` AS STRING),
+CAST(`Discount Amount` AS STRING),
+CAST(`Tax Amount` AS STRING),
+CAST(`Shipping Cost` AS STRING),
+CAST(`Gross Sales` AS STRING),
+CAST(`Net Sales` AS STRING),
+CAST(COGS AS STRING),
+CAST(`Gross Profit` AS STRING)
+FROM retail_sales_data;
