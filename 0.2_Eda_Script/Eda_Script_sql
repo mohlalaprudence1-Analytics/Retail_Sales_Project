@@ -120,29 +120,28 @@ SELECT * FROM DIM_PRODUCT;
 -- ------------------------------------------------------------
 -- 2.1 FACT_SALES
 -- ------------------------------------------------------------
-
-CREATE OR REPLACE TABLE FACT_SALES (
-Order_ID STRING,
-Store_ID STRING,
-Customer_ID STRING,
-Salesperson_ID STRING,
-Product_ID STRING,
-Promotion_ID STRING,
-Returned STRING,
-Quantity STRING,
-Unit_Cost STRING,
-Unit_Price STRING,
-Discount_Amount STRING,
-Tax_Amount STRING,
-Shipping_Cost STRING,
-Gross_Sales STRING,
-Net_Sales STRING,
-COGS STRING,
-Gross_Profit STRING
+    DROP TABLE IF EXISTS FACT_SALES;
+    CREATE TABLE FACT_SALES (
+    Order_ID STRING,
+    Store_ID STRING,
+    Customer_ID STRING,
+    Salesperson_ID STRING,
+    Product_ID STRING,
+    Promotion_ID STRING,
+    Returned STRING,
+    Quantity INT,
+    Unit_Cost INT,
+    Unit_Price INT,
+    Discount_Amount INT,
+    Tax_Amount INT,
+    Shipping_Cost INT,
+    Gross_Sales INT,
+    Net_Sales INT,
+    COGS INT,
+    Gross_Profit INT
 );
-SELECT * FROM FACT_SALES;
 
-INSERT INTO FACT_SALES
+INSERT INTO fact_sales
 SELECT
 `Order ID`,
 `Store ID`,
@@ -151,14 +150,14 @@ SELECT
 `Product ID`,
 `Promotion ID`,
 Returned,
-CAST(Quantity AS STRING),
-CAST(`Unit Cost` AS STRING),
-CAST(`Unit Price` AS STRING),
-CAST(`Discount Amount` AS STRING),
-CAST(`Tax Amount` AS STRING),
-CAST(`Shipping Cost` AS STRING),
-CAST(`Gross Sales` AS STRING),
-CAST(`Net Sales` AS STRING),
-CAST(COGS AS STRING),
-CAST(`Gross Profit` AS STRING)
+CAST(Quantity AS INT),
+CAST(`Unit Cost` AS INT),
+CAST(`Unit Price` AS INT),
+CAST(`Discount Amount` AS INT),
+CAST(`Tax Amount` AS INT),
+CAST(`Shipping Cost` AS INT),
+CAST(`Gross Sales` AS INT),
+CAST(`Net Sales` AS INT),
+CAST(COGS AS INT),
+CAST(`Gross Profit` AS INT)
 FROM retail_sales_data;
